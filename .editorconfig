@@ -1,0 +1,19 @@
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+indent_style = space
+
+[*.php]
+indent_size = 4
+
+[*.xml]
+indent_size = 4
+
+[*.{neon,neon.dist}]
+indent_size = 2
+
+[*.json]
+indent_size = 4

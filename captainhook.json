@@ -1,0 +1,27 @@
+{
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "composer style:check -- --no-ansi",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "composer test:static -- --no-ansi",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "composer test:phpunit -- --colors=never",
+                "options": [],
+                "conditions": []
+            }
+        ]
+    }
+}

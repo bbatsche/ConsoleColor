@@ -1,0 +1,10 @@
+parameters:
+  level: 9
+  paths:
+    - src
+    - test
+  checkMissingIterableValueType: true
+  ignoreErrors:
+    - '/Readonly property BeBat\\ConsoleColor\\Style::.+ is assigned outside of the constructor/'
+    - '/Readonly property BeBat\\ConsoleColor\\Style::.+ is already assigned/'
+    - '/Call to an undefined method BeBat\\Verify\\API\\Value::/'
