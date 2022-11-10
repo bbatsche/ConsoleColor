@@ -31,7 +31,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Dependencies
         uses: actions/cache@v3
@@ -52,7 +52,7 @@ jobs:
         run: composer test:static -- --no-progress
 
       - name: Run Unit & Functional Tests
-        run: composer test:coverage -- -v
+        run: composer test:coverage -- -v  --exclude-group require-tty
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v3
