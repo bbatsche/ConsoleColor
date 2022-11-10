@@ -52,7 +52,7 @@ jobs:
         run: composer test:static -- --no-progress
 
       - name: Run Unit & Functional Tests
-        run: composer test:coverage -- -v  --exclude-group require-tty
+        run: composer test:coverage -- -v
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v3

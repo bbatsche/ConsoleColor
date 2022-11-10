@@ -15,6 +15,8 @@ use function BeBat\Verify\verify;
 /**
  * @internal
  *
+ * @putenv FORCE_COLOR=1
+ *
  * @testdox Style Utility Tests
  */
 final class StyleTest extends MockeryTestCase
@@ -37,6 +39,8 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
+     * @unset-getenv FORCE_COLOR
+     *
      * @testdox Checks if the resource is a TTY
      */
     public function testCheckIfResourceIsTty(): void
@@ -101,6 +105,8 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
+     * @unset-getenv FORCE_COLOR
+     *
      * @testdox Styles can be forced on
      */
     public function testOverrideSupportChecks(): void

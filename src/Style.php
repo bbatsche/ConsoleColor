@@ -82,7 +82,7 @@ final class Style
         }
 
         if ((PHP_OS_FAMILY === 'Windows' && sapi_windows_vt100_support($resource))
-            || stream_isatty($resource)
+            || stream_isatty($resource) || getenv('FORCE_COLOR') !== false
         ) {
             $this->supportsStyles = true;
 
