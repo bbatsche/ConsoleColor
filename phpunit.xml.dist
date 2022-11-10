@@ -22,6 +22,10 @@
     </coverage>
 
     <listeners>
-        <listener class="\Mockery\Adapter\Phpunit\TestListener" />
+        <listener class="Mockery\Adapter\Phpunit\TestListener" />
     </listeners>
+
+    <extensions>
+        <extension class="Zalas\PHPUnit\Globals\AnnotationExtension" />
+    </extensions>
 </phpunit>

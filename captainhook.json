@@ -18,7 +18,7 @@
                 "conditions": []
             },
             {
-                "action": "composer test:phpunit -- --colors=never",
+                "action": "composer test:phpunit -- --colors=never --exclude-group require-tty",
                 "options": [],
                 "conditions": []
             }

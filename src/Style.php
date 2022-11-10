@@ -65,7 +65,7 @@ final class Style
     }
 
     /**
-     * Does the default output (assumed STDOUT) support styling?
+     * Does the default output (STDOUT) support styling?
      *
      * @param resource $resource
      */
@@ -77,23 +77,28 @@ final class Style
             $this->supportsStyles    = false;
             $this->supports256Colors = false;
             $this->supportsRGBColors = false;
-        } elseif ((PHP_OS_FAMILY === 'Windows'
-            && (getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON'))
-            || getenv('COLORTERM') === 'truecolor'
+
+            return;
+        }
+
+        if ((PHP_OS_FAMILY === 'Windows' && sapi_windows_vt100_support($resource))
+            || stream_isatty($resource)
         ) {
-            $this->supportsStyles    = true;
-            $this->supports256Colors = true;
-            $this->supportsRGBColors = true;
-        } elseif (str_contains((string) getenv('TERM'), '256color')) {
-            $this->supportsStyles    = true;
-            $this->supports256Colors = true;
-            $this->supportsRGBColors = false;
-        } elseif (stream_isatty($resource)
-            || (PHP_OS_FAMILY === 'Windows' && sapi_windows_vt100_support($resource))
-        ) {
-            $this->supportsStyles    = true;
-            $this->supports256Colors = false;
-            $this->supportsRGBColors = false;
+            $this->supportsStyles = true;
+
+            if ((PHP_OS_FAMILY === 'Windows'
+                && (getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON'))
+                || getenv('COLORTERM') === 'truecolor'
+            ) {
+                $this->supports256Colors = true;
+                $this->supportsRGBColors = true;
+            } elseif (str_contains((string) getenv('TERM'), '256color')) {
+                $this->supports256Colors = true;
+                $this->supportsRGBColors = false;
+            } else {
+                $this->supports256Colors = false;
+                $this->supportsRGBColors = false;
+            }
         } else {
             $this->supportsStyles    = false;
             $this->supports256Colors = false;
