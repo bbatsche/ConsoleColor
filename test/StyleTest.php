@@ -20,35 +20,6 @@ use function BeBat\Verify\verify;
 final class StyleTest extends MockeryTestCase
 {
     /**
-     * @testdox Checks if the resource is a TTY
-     */
-    public function testCheckIfResourceIsTty(): void
-    {
-        /** @var resource */
-        $resource = fopen(__DIR__ . '/tmp/foo', 'w');
-
-        verify(new Style($resource))
-            ->supportsStyles->is()->false()
-            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
-
-        fclose($resource);
-    }
-
-    /**
-     * @putenv NO_COLOR
-     *
-     * @testdox Respects NO_COLOR variable
-     */
-    public function testRespectsNoColor(): void
-    {
-        verify(new Style())
-            ->supportsStyles->is()->false()
-            ->supports256Colors->is()->false()
-            ->supportsRGBColors->is()->false()
-            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
-    }
-
-    /**
      * @putenv COLORTERM=truecolor
      *
      * @testdox Checks COLORTERM variable
@@ -63,6 +34,21 @@ final class StyleTest extends MockeryTestCase
             ->supportsRGBColors->is()->true()
             ->apply()
             ->with('Styled text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo("\033[38:2:42:56:128mStyled text\033[0m");
+    }
+
+    /**
+     * @testdox Checks if the resource is a TTY
+     */
+    public function testCheckIfResourceIsTty(): void
+    {
+        /** @var resource */
+        $resource = fopen(__DIR__ . '/tmp/foo', 'w');
+
+        verify(new Style($resource))
+            ->supportsStyles->is()->false()
+            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
+
+        fclose($resource);
     }
 
     /**
@@ -83,6 +69,15 @@ final class StyleTest extends MockeryTestCase
             ->apply()
             ->with('Plain text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo('Plain text')
             ->with('Styled text', Color256::foreground(200))->is()->identicalTo("\033[38:5:200mStyled text\033[0m");
+    }
+
+    /**
+     * @testdox Can generate esc sequence codes
+     */
+    public function testEscSequence(): void
+    {
+        verify(new Style())
+            ->escSequence('foo')->is()->identicalTo("\033[foom");
     }
 
     /**
@@ -123,11 +118,16 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
-     * @testdox Can generate esc sequence codes
+     * @putenv NO_COLOR
+     *
+     * @testdox Respects NO_COLOR variable
      */
-    public function testEscSequence(): void
+    public function testRespectsNoColor(): void
     {
         verify(new Style())
-            ->escSequence('foo')->is()->identicalTo("\033[foom");
+            ->supportsStyles->is()->false()
+            ->supports256Colors->is()->false()
+            ->supportsRGBColors->is()->false()
+            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
     }
 }

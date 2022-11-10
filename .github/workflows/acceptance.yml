@@ -1,0 +1,60 @@
+name: Acceptance Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+      - "[0-9]+.[0-9]+"
+  push:
+    branches:
+      - master
+      - "[0-9]+.[0-9]+"
+  release:
+
+jobs:
+  acceptance-tests:
+    name: Acceptance Tests PHP ${{ matrix.versions.php }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        versions:
+          - php: "8.1"
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP ${{ matrix.versions.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.versions.php }}"
+          coverage: pcov
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.versions.php }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.versions.php }}
+            ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Check Code Style
+        run: composer style:check
+
+      - name: Run Static Analysis
+        run: composer test:static -- --no-progress
+
+      - name: Run Unit & Functional Tests
+        run: composer test:coverage -- -v
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage.xml
