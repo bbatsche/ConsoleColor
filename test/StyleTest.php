@@ -35,7 +35,7 @@ final class StyleTest extends MockeryTestCase
             ->supports256Colors->is()->true()
             ->supportsRGBColors->is()->true()
             ->apply()
-            ->with('Styled text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo("\033[38:2:42:56:128mStyled text\033[0m");
+            ->with('Styled text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo("\e[38:2:42:56:128mStyled text\e[0m");
     }
 
     /**
@@ -72,7 +72,7 @@ final class StyleTest extends MockeryTestCase
             ->supportsRGBColors->is()->false()
             ->apply()
             ->with('Plain text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo('Plain text')
-            ->with('Styled text', Color256::foreground(200))->is()->identicalTo("\033[38:5:200mStyled text\033[0m");
+            ->with('Styled text', Color256::foreground(200))->is()->identicalTo("\e[38:5:200mStyled text\e[0m");
     }
 
     /**
@@ -81,7 +81,7 @@ final class StyleTest extends MockeryTestCase
     public function testEscSequence(): void
     {
         verify(new Style())
-            ->escSequence('foo')->is()->identicalTo("\033[foom");
+            ->escSequence('foo')->is()->identicalTo("\e[foom");
     }
 
     /**
@@ -101,7 +101,7 @@ final class StyleTest extends MockeryTestCase
             ->apply()
             ->with('Plain text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo('Plain text')
             ->with('Plain text', Color256::foreground(200))->is()->identicalTo('Plain text')
-            ->with('Styled text', Color::Cyan)->is()->identicalTo("\033[36mStyled text\033[0m");
+            ->with('Styled text', Color::Cyan)->is()->identicalTo("\e[36mStyled text\e[0m");
     }
 
     /**
@@ -118,7 +118,7 @@ final class StyleTest extends MockeryTestCase
 
         verify($subject)
             ->supportsStyles->is()->false()
-            ->apply('Styled text', Color::Blue)->is()->identicalTo("\033[34mStyled text\033[0m");
+            ->apply('Styled text', Color::Blue)->is()->identicalTo("\e[34mStyled text\e[0m");
 
         fclose($resource);
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor\Style;
 
+use BeBat\ConsoleColor\StyleInterface;
+
 /**
  * Text styles. Some of these may not be fully supported.
  */

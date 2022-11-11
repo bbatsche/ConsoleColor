@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BeBat\ConsoleColor\Test\Style;
 
 use BeBat\ConsoleColor\Style\Composite;
-use BeBat\ConsoleColor\Style\StyleInterface;
+use BeBat\ConsoleColor\StyleInterface;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 

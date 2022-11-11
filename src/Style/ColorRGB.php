@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor\Style;
 
+use BeBat\ConsoleColor\StyleInterface;
 use DomainException;
 
 /**

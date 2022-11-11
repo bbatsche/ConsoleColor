@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BeBat\ConsoleColor\Style;
+namespace BeBat\ConsoleColor;
 
 /**
  * General style features.

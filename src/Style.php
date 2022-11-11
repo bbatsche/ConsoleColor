@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor;
 
-use BeBat\ConsoleColor\Style\StyleInterface;
-
 /**
  * Apply console colors & styles to text.
  */
@@ -45,7 +43,7 @@ final class Style
      */
     public function escSequence(string $ansiCode): string
     {
-        return sprintf("\033[%sm", $ansiCode);
+        return sprintf("\e[%sm", $ansiCode);
     }
 
     /**

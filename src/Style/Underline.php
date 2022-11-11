@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor\Style;
 
+use BeBat\ConsoleColor\StyleInterface;
+
 /**
  * Additional underline styles (may not be widely supported).
  */
@@ -11,7 +13,7 @@ enum Underline: int implements StyleInterface
 {
     case Single = 1;
     case Double = 2;
-    case Curly  = 3;
+    case Wavy   = 3;
     case Dotted = 4;
     case Dashed = 5;
 
