@@ -105,7 +105,7 @@ To see what styles your terminal supports and what they look like, run the inclu
 
 #### Underline
 
-Custom underline styles are not widely supported but some do include them. Most, if not all, will fall back on just displaying a single underline.
+Custom underline styles are not widely supported but some terminals do include them. Most, if not all, will fall back on just displaying a single underline.
 
 * `Style\Underline::Single`
 * `Style\Underline::Double`
@@ -170,7 +170,7 @@ $style = new Style();
 
 echo $style->apply(
     'This text has a typo',
-    new Style\Composite(Style\Underline::Curly, Style\ColorRGB::underline(255, 0, 0)),
+    new Style\Composite(Style\Underline::Wavy, Style\ColorRGB::underline(255, 0, 0)),
 ) . PHP_EOL;
 ```
 
