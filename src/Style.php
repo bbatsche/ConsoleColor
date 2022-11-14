@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor;
 
-final class Style implements StyleApplierInterface
+final class Style implements ApplierInterface
 {
     public readonly bool $supports256Colors;
     public readonly bool $supportsRGBColors;

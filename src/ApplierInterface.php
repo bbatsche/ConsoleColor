@@ -7,7 +7,7 @@ namespace BeBat\ConsoleColor;
 /**
  * Apply console colors & styles to text.
  */
-interface StyleApplierInterface
+interface ApplierInterface
 {
     /**
      * Apply a style to text.
