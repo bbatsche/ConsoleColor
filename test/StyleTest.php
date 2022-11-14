@@ -31,9 +31,9 @@ final class StyleTest extends MockeryTestCase
     public function testCheckColorterm(): void
     {
         verify(new Style())
-            ->supportsStyles->is()->true()
-            ->supports256Colors->is()->true()
-            ->supportsRGBColors->is()->true()
+            ->supportsStyles()->is()->true()
+            ->supports256Colors()->is()->true()
+            ->supportsRGBColors()->is()->true()
             ->apply()
             ->with('Styled text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo("\e[38:2:42:56:128mStyled text\e[0m");
     }
@@ -67,9 +67,9 @@ final class StyleTest extends MockeryTestCase
     public function testCheckTerm(): void
     {
         verify(new Style())
-            ->supportsStyles->is()->true()
-            ->supports256Colors->is()->true()
-            ->supportsRGBColors->is()->false()
+            ->supportsStyles()->is()->true()
+            ->supports256Colors()->is()->true()
+            ->supportsRGBColors()->is()->false()
             ->apply()
             ->with('Plain text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo('Plain text')
             ->with('Styled text', Color256::foreground(200))->is()->identicalTo("\e[38:5:200mStyled text\e[0m");
@@ -95,9 +95,9 @@ final class StyleTest extends MockeryTestCase
     public function testFallbackOnAnsiStyle(): void
     {
         verify(new Style())
-            ->supportsStyles->is()->true()
-            ->supports256Colors->is()->false()
-            ->supportsRGBColors->is()->false()
+            ->supportsStyles()->is()->true()
+            ->supports256Colors()->is()->false()
+            ->supportsRGBColors()->is()->false()
             ->apply()
             ->with('Plain text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo('Plain text')
             ->with('Plain text', Color256::foreground(200))->is()->identicalTo('Plain text')
@@ -131,9 +131,9 @@ final class StyleTest extends MockeryTestCase
     public function testRespectsNoColor(): void
     {
         verify(new Style())
-            ->supportsStyles->is()->false()
-            ->supports256Colors->is()->false()
-            ->supportsRGBColors->is()->false()
+            ->supportsStyles()->is()->false()
+            ->supports256Colors()->is()->false()
+            ->supportsRGBColors()->is()->false()
             ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
     }
 }

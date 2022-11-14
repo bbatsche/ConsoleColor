@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor;
 
-/**
- * Apply console colors & styles to text.
- */
-final class Style
+final class Style implements ApplierInterface
 {
     public readonly bool $supports256Colors;
     public readonly bool $supportsRGBColors;
@@ -22,9 +19,6 @@ final class Style
         $this->checkSupport($resource);
     }
 
-    /**
-     * Apply a style to text.
-     */
     public function apply(string $text, StyleInterface $style): string
     {
         if (!$this->isForced() && (
@@ -46,20 +40,29 @@ final class Style
         return sprintf("\e[%sm", $ansiCode);
     }
 
-    /**
-     * Ignore the support determination and always apply styles to text.
-     */
     public function force(bool $force = true): void
     {
         $this->forcedOutput = $force;
     }
 
-    /**
-     * Will styles be applied to text, regardless of whether they are supported?
-     */
     public function isForced(): bool
     {
         return $this->forcedOutput;
+    }
+
+    public function supportsStyles(): bool
+    {
+        return $this->supportsStyles;
+    }
+
+    public function supports256Colors(): bool
+    {
+        return $this->supports256Colors;
+    }
+
+    public function supportsRGBColors(): bool
+    {
+        return $this->supportsRGBColors;
     }
 
     /**
