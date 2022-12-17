@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/bebat/console-color.svg?style=flat-square)](https://packagist.org/packages/bebat/console-color)
 [![Required PHP Version](https://img.shields.io/packagist/php-v/bebat/console-color.svg?style=flat-square)](https://packagist.org/packages/bebat/console-color)
 [![License](https://img.shields.io/packagist/l/bebat/console-color?style=flat-square)](LICENSE)
-[![Acceptance Test Status](https://img.shields.io/github/workflow/status/bbatsche/ConsoleColor/Acceptance%20Tests/develop?style=flat-square)](https://github.com/bbatsche/ConsoleColor/actions/workflows/acceptance.yml)
+[![Acceptance Test Status](https://img.shields.io/github/actions/workflow/status/bbatsche/ConsoleColor/acceptance.yml?branch=develop&style=flat-square)](https://github.com/bbatsche/ConsoleColor/actions/workflows/acceptance.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/bbatsche/ConsoleColor?style=flat-square)](https://codecov.io/gh/bbatsche/ConsoleColor)
 
 Console Color is a lightweight PHP 8.1+ library for adding color & other styles to text in the command line.
