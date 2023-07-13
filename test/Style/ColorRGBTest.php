@@ -20,7 +20,7 @@ final class ColorRGBTest extends TestCase
     /**
      * @return array<int[]>
      */
-    public function provideExceptionsCases(): array
+    public static function provideExceptionsCases(): array
     {
         return [
             'red underflow'   => ['red' => -1, 'green' => 128, 'blue' => 128],

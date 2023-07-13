@@ -7,12 +7,12 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new PhpCsFixer\Config())
     ->setRules([
-        '@PHP81Migration'           => true,
-        '@PHP80Migration:risky'     => true,
-        '@PHPUnit84Migration:risky' => true,
-        '@PhpCsFixer'               => true,
-        '@PhpCsFixer:risky'         => true,
-        'binary_operator_spaces'    => [
+        '@PHP81Migration'            => true,
+        '@PHP80Migration:risky'      => true,
+        '@PHPUnit100Migration:risky' => true,
+        '@PhpCsFixer'                => true,
+        '@PhpCsFixer:risky'          => true,
+        'binary_operator_spaces'     => [
             'default'   => 'align_single_space_minimal',
             'operators' => ['||' => 'single_space', '&&' => 'single_space', '|' => 'no_space'],
         ],

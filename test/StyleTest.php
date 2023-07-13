@@ -9,25 +9,24 @@ use BeBat\ConsoleColor\Style\Color;
 use BeBat\ConsoleColor\Style\Color256;
 use BeBat\ConsoleColor\Style\ColorRGB;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Zalas\PHPUnit\Globals\Attribute\Putenv;
 
 use function BeBat\Verify\verify;
 
 /**
  * @internal
  *
- * @putenv FORCE_COLOR=1
- *
  * @testdox Style Utility Tests
  */
+#[Putenv('FORCE_COLOR', '1')]
 final class StyleTest extends MockeryTestCase
 {
     /**
-     * @putenv COLORTERM=truecolor
-     *
      * @testdox Checks COLORTERM variable
      *
      * @group require-tty
      */
+    #[Putenv('COLORTERM', 'truecolor')]
     public function testCheckColorterm(): void
     {
         verify(new Style())
@@ -39,10 +38,9 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
-     * @unset-getenv FORCE_COLOR
-     *
      * @testdox Checks if the resource is a TTY
      */
+    #[Putenv('FORCE_COLOR', unset: true)]
     public function testCheckIfResourceIsTty(): void
     {
         /** @var resource */
@@ -56,14 +54,12 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
-     * @putenv TERM=xterm-256color
-     *
-     * @unset-getenv COLORTERM
-     *
      * @testdox Checks TERM variable
      *
      * @group require-tty
      */
+    #[Putenv('TERM', 'xterm-256color')]
+    #[Putenv('COLORTERM', unset: true)]
     public function testCheckTerm(): void
     {
         verify(new Style())
@@ -85,13 +81,12 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
-     * @unset-getenv TERM
-     * @unset-getenv COLORTERM
-     *
      * @testdox Falls back on ANSI styles
      *
      * @group require-tty
      */
+    #[Putenv('TERM', unset: true)]
+    #[Putenv('COLORTERM', unset: true)]
     public function testFallbackOnAnsiStyle(): void
     {
         verify(new Style())
@@ -105,10 +100,9 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
-     * @unset-getenv FORCE_COLOR
-     *
      * @testdox Styles can be forced on
      */
+    #[Putenv('FORCE_COLOR', unset: true)]
     public function testOverrideSupportChecks(): void
     {
         /** @var resource */
@@ -124,10 +118,9 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
-     * @putenv NO_COLOR
-     *
      * @testdox Respects NO_COLOR variable
      */
+    #[Putenv('NO_COLOR', '')]
     public function testRespectsNoColor(): void
     {
         verify(new Style())
