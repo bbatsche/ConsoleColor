@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BeBat\ConsoleColor;
 
+use const PHP_OS_FAMILY;
+
 final class Style implements ApplierInterface
 {
     public readonly bool $supports256Colors;
@@ -14,7 +16,7 @@ final class Style implements ApplierInterface
     /**
      * @param resource $resource
      */
-    public function __construct($resource = STDOUT)
+    public function __construct($resource = \STDOUT)
     {
         $this->checkSupport($resource);
     }

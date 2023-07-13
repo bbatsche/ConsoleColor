@@ -8,7 +8,7 @@ use BeBat\ConsoleColor\StyleInterface;
 use DomainException;
 
 /**
- * Any color from the 256 color pallet.
+ * Any color from the 256 color palette.
  */
 final class Color256 implements StyleInterface
 {

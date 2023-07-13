@@ -9,7 +9,7 @@ indent_style = space
 [*.php]
 indent_size = 4
 
-[*.xml]
+[*.{xml,xml.dist}]
 indent_size = 4
 
 [*.{neon,neon.dist}]
@@ -17,3 +17,6 @@ indent_size = 2
 
 [*.json]
 indent_size = 4
+
+[*.md]
+indent_size = 2

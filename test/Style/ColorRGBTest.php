@@ -20,7 +20,7 @@ final class ColorRGBTest extends TestCase
     /**
      * @return array<int[]>
      */
-    public function outOfBoundValues(): array
+    public static function provideExceptionsCases(): array
     {
         return [
             'red underflow'   => ['red' => -1, 'green' => 128, 'blue' => 128],
@@ -48,7 +48,7 @@ final class ColorRGBTest extends TestCase
     }
 
     /**
-     * @dataProvider outOfBoundValues
+     * @dataProvider provideExceptionsCases
      */
     public function testExceptions(int $red, int $green, int $blue): void
     {
