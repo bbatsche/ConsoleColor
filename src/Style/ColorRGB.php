@@ -8,7 +8,7 @@ use BeBat\ConsoleColor\StyleInterface;
 use DomainException;
 
 /**
- * Any color from the true color pallet.
+ * Any color from the true color palette.
  */
 final class ColorRGB implements StyleInterface
 {

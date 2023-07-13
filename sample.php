@@ -5,6 +5,9 @@ declare(strict_types=1);
 
 use BeBat\ConsoleColor\Style;
 
+use const PHP_EOL;
+use const STR_PAD_LEFT;
+
 $localPath     = __DIR__ . '/vendor/autoload.php';
 $installedPath = dirname(__DIR__, 2) . '/autoload.php';
 
