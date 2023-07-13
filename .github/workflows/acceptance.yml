@@ -44,16 +44,16 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --no-progress
+        run: make install
 
       - name: Check Code Style
-        run: composer style:check
+        run: make check-style
 
       - name: Run Static Analysis
-        run: composer test:static -- --no-progress
+        run: make static-check
 
       - name: Run Unit & Functional Tests
-        run: composer test:coverage
+        run: make coverage
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v3

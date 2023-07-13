@@ -8,17 +8,17 @@
                 "conditions": []
             },
             {
-                "action": "composer style:check -- --no-ansi",
+                "action": "make check-style",
                 "options": [],
                 "conditions": []
             },
             {
-                "action": "composer test:static -- --no-ansi",
+                "action": "make static-check",
                 "options": [],
                 "conditions": []
             },
             {
-                "action": "composer test:phpunit -- --colors=never",
+                "action": "make test",
                 "options": [],
                 "conditions": []
             }
