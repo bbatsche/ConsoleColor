@@ -9,7 +9,8 @@
          failOnWarning="true"
          failOnDeprecation="true"
          failOnNotice="true"
-         testdox="true">
+         testdox="true"
+         extensionsDirectory="tools/phpunit.d">
     <testsuites>
         <testsuite name="Console Color Tests">
             <directory>test</directory>
