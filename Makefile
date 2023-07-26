@@ -9,13 +9,13 @@ SRC_FILES := $(shell find src test -name '*.php')
 
 ## Manage Dependencies
 .PHONY: install
-install: composer.lock vendor
+install: tools/composer
+	php tools/composer install
 
 .PHONY: update
-update: tools/composer
-	php tools/composer update
+update: composer.lock vendor
 
-composer.lock vendor: tools/composer
+composer.lock vendor: tools/composer composer.json
 	php tools/composer install
 
 
@@ -45,6 +45,10 @@ coverage: coverage.xml
 
 coverage.xml: tools/phpunit tools/phpunit.d/zalas-phpunit-globals-extension.phar $(SRC_FILES)
 	php tools/phpunit --coverage-clover=coverage.xml
+
+
+.PHONY: all-tests
+all-tests: check-style static-check test
 
 
 ## Tool Aliases
