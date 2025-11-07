@@ -18,21 +18,6 @@ use function BeBat\Verify\verify;
 final class ColorRGBTest extends TestCase
 {
     /**
-     * @return array<int[]>
-     */
-    public static function provideExceptionsCases(): array
-    {
-        return [
-            'red underflow'   => ['red' => -1, 'green' => 128, 'blue' => 128],
-            'red overflow'    => ['red' => 256, 'green' => 128, 'blue' => 128],
-            'blue underflow'  => ['red' => 128, 'green' => 128, 'blue' => -1],
-            'blue overflow'   => ['red' => 128, 'green' => 128, 'blue' => 256],
-            'green underflow' => ['red' => 128, 'green' => -1, 'blue' => 128],
-            'green overflow'  => ['red' => 128, 'green' => 256, 'blue' => 128],
-        ];
-    }
-
-    /**
      * @testdox ANSI Code Output
      */
     public function testAnsiCodes(): void
@@ -60,5 +45,20 @@ final class ColorRGBTest extends TestCase
 
         verify(ColorRGB::class)->underline($red, $green, $blue)
             ->will()->throwException()->instanceOf(DomainException::class);
+    }
+
+    /**
+     * @return array<int[]>
+     */
+    public static function provideExceptionsCases(): iterable
+    {
+        return [
+            'red underflow'   => ['red' => -1, 'green' => 128, 'blue' => 128],
+            'red overflow'    => ['red' => 256, 'green' => 128, 'blue' => 128],
+            'blue underflow'  => ['red' => 128, 'green' => 128, 'blue' => -1],
+            'blue overflow'   => ['red' => 128, 'green' => 128, 'blue' => 256],
+            'green underflow' => ['red' => 128, 'green' => -1, 'blue' => 128],
+            'green overflow'  => ['red' => 128, 'green' => 256, 'blue' => 128],
+        ];
     }
 }

@@ -39,7 +39,7 @@ final class Style implements ApplierInterface
      */
     public function escSequence(string $ansiCode): string
     {
-        return sprintf("\e[%sm", $ansiCode);
+        return \sprintf("\e[%sm", $ansiCode);
     }
 
     public function force(bool $force = true): void

@@ -7,9 +7,9 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new PhpCsFixer\Config())
     ->setRules([
-        '@PHP81Migration'            => true,
-        '@PHP80Migration:risky'      => true,
-        '@PHPUnit100Migration:risky' => true,
+        '@PHP8x1Migration'            => true,
+        '@PHP8x0Migration:risky'      => true,
+        '@PHPUnit10x0Migration:risky' => true,
         '@PhpCsFixer'                => true,
         '@PhpCsFixer:risky'          => true,
         'binary_operator_spaces'     => [
@@ -56,7 +56,7 @@ return (new PhpCsFixer\Config())
         'date_time_create_from_format_call'      => true,
         'date_time_immutable'                    => true,
         'echo_tag_syntax'                        => ['format' => 'short'],
-        'escape_implicit_backslashes'            => ['single_quoted' => true],
+        'string_implicit_backslashes'            => ['single_quoted' => 'escape'],
         'final_class'                            => true,
         'final_public_method_for_abstract_class' => true,
         'general_phpdoc_annotation_remove'       => [
