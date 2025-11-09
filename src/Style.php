@@ -11,7 +11,9 @@ final class Style implements ApplierInterface
     public readonly bool $supports256Colors;
     public readonly bool $supportsRGBColors;
     public readonly bool $supportsStyles;
-    private bool $forcedOutput = false;
+    private bool $active        = false;
+    private bool $autoTerminate = true;
+    private bool $forcedOutput  = false;
 
     /**
      * @param resource $resource
@@ -21,7 +23,12 @@ final class Style implements ApplierInterface
         $this->checkSupport($resource);
     }
 
-    public function apply(string $text, StyleInterface $style): string
+    public function autoTerminate(bool $autoTerminate = true): void
+    {
+        $this->autoTerminate = $autoTerminate;
+    }
+
+    public function apply(string $text, StyleInterface $style, ?bool $terminate = null): string
     {
         if (!$this->isForced() && (
             !$this->supportsStyles
@@ -31,7 +38,13 @@ final class Style implements ApplierInterface
             return $text;
         }
 
-        return $this->escSequence($style->ansiCode()) . $text . $this->escSequence(Style\Text::None->ansiCode());
+        $tail = ($terminate === true || ($terminate === null && $this->willAutoTerminate()))
+            ? $this->terminator()
+            : '';
+
+        $this->active = $tail === '' && !str_ends_with($style->ansiCode(), Style\Text::None->ansiCode());
+
+        return $this->escSequence($style->ansiCode()) . $text . $tail;
     }
 
     /**
@@ -45,6 +58,11 @@ final class Style implements ApplierInterface
     public function force(bool $force = true): void
     {
         $this->forcedOutput = $force;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 
     public function isForced(): bool
@@ -65,6 +83,18 @@ final class Style implements ApplierInterface
     public function supportsRGBColors(): bool
     {
         return $this->supportsRGBColors;
+    }
+
+    public function terminate(): string
+    {
+        $this->active = false;
+
+        return $this->terminator();
+    }
+
+    public function willAutoTerminate(): bool
+    {
+        return $this->autoTerminate;
     }
 
     /**
@@ -107,5 +137,13 @@ final class Style implements ApplierInterface
             $this->supports256Colors = false;
             $this->supportsRGBColors = false;
         }
+    }
+
+    /**
+     * Get style terminator sequence.
+     */
+    private function terminator(): string
+    {
+        return $this->escSequence(Style\Text::None->ansiCode());
     }
 }

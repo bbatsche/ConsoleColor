@@ -22,6 +22,30 @@ use function BeBat\Verify\verify;
 final class StyleTest extends MockeryTestCase
 {
     /**
+     * @testdox Can be configured to automatically terminate styles
+     *
+     * @group require-tty
+     */
+    public function testAutoTermination(): void
+    {
+        $style = new Style();
+
+        verify($style)->willAutoTerminate()->is()->true()
+            ->and()->isActive()->is()->false();
+
+        verify($style)->apply('Some text!', Color::Red)
+            ->will()->endWith("\e[0m");
+        verify($style)->isActive()->is()->false();
+
+        $style->autoTerminate(false);
+
+        verify($style)->apply('More text!', Color::Green)
+            ->willNot()->endWith("\e[0m");
+        verify($style)->willAutoTerminate()->is()->false()
+            ->and()->isActive()->is()->true();
+    }
+
+    /**
      * @testdox Checks COLORTERM variable
      *
      * @group require-tty
@@ -97,6 +121,31 @@ final class StyleTest extends MockeryTestCase
             ->with('Plain text', ColorRGB::foreground(42, 56, 128))->is()->identicalTo('Plain text')
             ->with('Plain text', Color256::foreground(200))->is()->identicalTo('Plain text')
             ->with('Styled text', Color::Cyan)->is()->identicalTo("\e[36mStyled text\e[0m");
+    }
+
+    /**
+     * @testdox Styles can be manually terminated or non-terminated
+     *
+     * @group require-tty
+     */
+    public function testManualTermination(): void
+    {
+        $style = new Style();
+
+        verify($style)->apply('This is text', Color::Yellow, false)
+            ->willNot()->endWith("\e[0m");
+        verify($style)->isActive()->is()->true();
+        verify($style)->terminate()->is()->identicalTo("\e[0m");
+        verify($style)->isActive()->is()->false();
+
+        $style->autoTerminate(false);
+
+        verify($style)->apply('Even more text!', Color::BrightBlue, true)
+            ->will()->endWith("\e[0m");
+        verify($style)->isActive()->is()->false();
+
+        $style->apply('This text has no style!', Style\Text::None);
+        verify($style)->isActive()->is()->false();
     }
 
     /**

@@ -94,7 +94,7 @@ return (new PhpCsFixer\Config())
                 'method_protected',
                 'method_private',
             ],
-            // 'sort_algorithm' => 'alpha',
+            // 'sort_algorithm' => 'alpha', // Enum values should be sorted by value, not alpha
             'case_sensitive' => true,
         ],
         'ordered_interfaces'                  => true,
