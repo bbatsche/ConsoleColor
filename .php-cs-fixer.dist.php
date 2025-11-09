@@ -64,7 +64,7 @@ return (new PhpCsFixer\Config())
             'case_sensitive' => false,
         ],
         'global_namespace_import'                          => true,
-        'mb_str_functions'                                 => true,
+        'mb_str_functions'                                 => false, // mb_str_pad functions added in PHP 8.3
         'multiline_whitespace_before_semicolons'           => ['strategy' => 'no_multi_line'],
         'native_constant_invocation'                       => true,
         'no_unset_on_property'                             => false,
