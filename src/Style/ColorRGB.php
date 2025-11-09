@@ -61,7 +61,7 @@ final class ColorRGB implements StyleInterface
 
     public function ansiCode(): string
     {
-        return sprintf('%d:2:%d:%d:%d', $this->placement, $this->red, $this->green, $this->blue);
+        return \sprintf('%d:2:%d:%d:%d', $this->placement, $this->red, $this->green, $this->blue);
     }
 
     public function is256(): bool

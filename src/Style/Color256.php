@@ -57,7 +57,7 @@ final class Color256 implements StyleInterface
 
     public function ansiCode(): string
     {
-        return sprintf('%d:5:%d', $this->placement, $this->code);
+        return \sprintf('%d:5:%d', $this->placement, $this->code);
     }
 
     public function is256(): bool

@@ -22,6 +22,30 @@ use function BeBat\Verify\verify;
 final class StyleTest extends MockeryTestCase
 {
     /**
+     * @testdox Can be configured to automatically terminate styles
+     *
+     * @group require-tty
+     */
+    public function testAutoTermination(): void
+    {
+        $style = new Style();
+
+        verify($style)->willAutoTerminate()->is()->true()
+            ->and()->isActive()->is()->false();
+
+        verify($style)->apply('Some text!', Color::Red)
+            ->will()->endWith("\e[0m");
+        verify($style)->isActive()->is()->false();
+
+        $style->autoTerminate(false);
+
+        verify($style)->apply('More text!', Color::Green)
+            ->willNot()->endWith("\e[0m");
+        verify($style)->willAutoTerminate()->is()->false()
+            ->and()->isActive()->is()->true();
+    }
+
+    /**
      * @testdox Checks COLORTERM variable
      *
      * @group require-tty
@@ -48,7 +72,8 @@ final class StyleTest extends MockeryTestCase
 
         verify(new Style($resource))
             ->supportsStyles->is()->false()
-            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
+            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text')
+            ->terminate()->is()->identicalTo('');
 
         fclose($resource);
     }
@@ -100,6 +125,31 @@ final class StyleTest extends MockeryTestCase
     }
 
     /**
+     * @testdox Styles can be manually terminated or non-terminated
+     *
+     * @group require-tty
+     */
+    public function testManualTermination(): void
+    {
+        $style = new Style();
+
+        verify($style)->apply('This is text', Color::Yellow, false)
+            ->willNot()->endWith("\e[0m");
+        verify($style)->isActive()->is()->true();
+        verify($style)->terminate()->is()->identicalTo("\e[0m");
+        verify($style)->isActive()->is()->false();
+
+        $style->autoTerminate(false);
+
+        verify($style)->apply('Even more text!', Color::BrightBlue, true)
+            ->will()->endWith("\e[0m");
+        verify($style)->isActive()->is()->false();
+
+        $style->apply('This text has no style!', Style\Text::None);
+        verify($style)->isActive()->is()->false();
+    }
+
+    /**
      * @testdox Styles can be forced on
      */
     #[Putenv('FORCE_COLOR', unset: true)]
@@ -112,7 +162,8 @@ final class StyleTest extends MockeryTestCase
 
         verify($subject)
             ->supportsStyles->is()->false()
-            ->apply('Styled text', Color::Blue)->is()->identicalTo("\e[34mStyled text\e[0m");
+            ->apply('Styled text', Color::Blue)->is()->identicalTo("\e[34mStyled text\e[0m")
+            ->terminate()->is()->identicalTo("\e[0m");
 
         fclose($resource);
     }
@@ -127,6 +178,7 @@ final class StyleTest extends MockeryTestCase
             ->supportsStyles()->is()->false()
             ->supports256Colors()->is()->false()
             ->supportsRGBColors()->is()->false()
-            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
+            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text')
+            ->terminate()->is()->identicalTo('');
     }
 }
