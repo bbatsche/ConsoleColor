@@ -72,7 +72,8 @@ final class StyleTest extends MockeryTestCase
 
         verify(new Style($resource))
             ->supportsStyles->is()->false()
-            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
+            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text')
+            ->terminate()->is()->identicalTo('');
 
         fclose($resource);
     }
@@ -161,7 +162,8 @@ final class StyleTest extends MockeryTestCase
 
         verify($subject)
             ->supportsStyles->is()->false()
-            ->apply('Styled text', Color::Blue)->is()->identicalTo("\e[34mStyled text\e[0m");
+            ->apply('Styled text', Color::Blue)->is()->identicalTo("\e[34mStyled text\e[0m")
+            ->terminate()->is()->identicalTo("\e[0m");
 
         fclose($resource);
     }
@@ -176,6 +178,7 @@ final class StyleTest extends MockeryTestCase
             ->supportsStyles()->is()->false()
             ->supports256Colors()->is()->false()
             ->supportsRGBColors()->is()->false()
-            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text');
+            ->apply('Plain text', Color::Green)->is()->identicalTo('Plain text')
+            ->terminate()->is()->identicalTo('');
     }
 }

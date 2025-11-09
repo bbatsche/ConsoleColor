@@ -89,7 +89,9 @@ final class Style implements ApplierInterface
     {
         $this->active = false;
 
-        return $this->terminator();
+        return $this->supportsStyles() || $this->isForced()
+            ? $this->terminator()
+            : '';
     }
 
     public function willAutoTerminate(): bool
