@@ -11,12 +11,13 @@ Console Color is a lightweight PHP 8.1+ library for adding color & other styles 
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
   - [Environment Variables](#environment-variables)
+  - [Auto Termination](#auto-termination)
 - [Included Styles](#included-styles)
   - [Basic Styles](#basic-styles)
     - [Text](#text)
     - [Underline](#underline)
-    - [Foreground & Background Color](#foreground--background-color)
-  - [256 & True Color](#256--true-color)
+    - [Foreground \& Background Color](#foreground--background-color)
+  - [256 \& True Color](#256--true-color)
   - [Composite Styles](#composite-styles)
 
 ## Installation
@@ -76,6 +77,69 @@ In addition to checking if `STDOUT` is a TTY, `Style` will look at several envir
 * `NO_COLOR` - If the user has set `NO_COLOR` styling will be disabled. `NO_COLOR` takes precedence over `FORCE_COLOR`.
 * `TERM` - `Style` will check `TERM` to see if it supports 256 colors.
 * `COLORTERM` - If `COLORTERM` is set to `truecolor` then `Style` will apply RGB based colors.
+
+### Auto Termination
+
+By default, Console Color will "terminate" each style by appending `Style\Text::None` after whatever text you are applying styles to. This is helpful so you don't accidentally make all the text in the terminal bright red, for example. However, if you are outputting many styles to the screen and would like more control on when they are terminated this can be disabled globally or at call time.
+
+To disable termination globally, use the `autoTerminate()` method like so:
+
+```php
+use BeBat\ConsoleColor\Style;
+
+$style = new Style();
+$style->autoTerminate(false);
+
+echo $style->apply("Didn't I just warn you about this?\n", Style\Color::BrightRed);
+```
+
+Auto termination can be re-enabled by passing `true` to `autoTerminate()` as well.
+
+Auto termination can also be disabled at call time by passing `false` as the third parameter to `apply()`:
+
+```php
+use BeBat\ConsoleColor\Style;
+
+$style = new Style();
+
+echo $style->apply("This style wont't stop!\n", Style\Color::Yellow, false);
+echo $style->apply("Now we're mixing and matching styles?\n", Style\BackgroundColor::BrightRed, false);
+echo $style->apply("Let's stop things before they get too out of hand\n", Style\Text::Underline, true);
+```
+
+The `Style` instance will attempt to keep track of whether the previous style was terminated or not. You can use `willAutoTerminate()` and `isActive()` to determine whether auto termination is enabled and if there are styles currently active on the output stream. To manually end styling, you may output `terminate()`:
+
+```php
+use BeBat\ConsoleColor\Style;
+
+$style = new Style();
+$style->autoTerminate(false);
+
+try {
+    echo $style->apply("We're about to attempt something that could fail!\n", Style\BackgroundColor::BrightYellow);
+
+    // ...
+} catch (\Throwable $e) {
+    if ($style->isActive()) {
+        // Previously applied style(s) weren't stopped
+        echo $style->terminate();
+    }
+}
+```
+
+Lastly, the `apply()` method will also check to see if styles were terminated explicitly by being passed `Style\Text::None`:
+
+```php
+use BeBat\ConsoleColor\Style;
+
+$style = new Style();
+$style->autoTerminate(false);
+
+echo $style->apply("Let's keep styling forever!\n", Style\Color::Blue);
+$style->isActive(); // => true
+echo $style->apply("Never mind, I've grown bored of such things.\n", Style\Text::None);
+$style->isActive(); // => false
+```
 
 ## Included Styles
 
