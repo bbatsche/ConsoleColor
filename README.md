@@ -82,7 +82,7 @@ In addition to checking if `STDOUT` is a TTY, `Style` will look at several envir
 
 By default, Console Color will "terminate" each style by appending `Style\Text::None` after whatever text you are applying styles to. This is helpful so you don't accidentally make all the text in the terminal bright red, for example. However, if you are outputting many styles to the screen and would like more control on when they are terminated this can be disabled globally or at call time.
 
-To disable termination globally, use the `autoTerminate()` method like so:
+To disable termination globally, pass `false` to `autoTerminate()` like so:
 
 ```php
 use BeBat\ConsoleColor\Style;
@@ -93,7 +93,7 @@ $style->autoTerminate(false);
 echo $style->apply("Didn't I just warn you about this?\n", Style\Color::BrightRed);
 ```
 
-Auto termination can be re-enabled by passing `true` to `autoTerminate()` as well.
+Auto termination can be re-enabled simply by calling `autoTerminate()` as well.
 
 Auto termination can also be disabled at call time by passing `false` as the third parameter to `apply()`:
 
@@ -107,7 +107,9 @@ echo $style->apply("Now we're mixing and matching styles?\n", Style\BackgroundCo
 echo $style->apply("Let's stop things before they get too out of hand\n", Style\Text::Underline, true);
 ```
 
-The `Style` instance will attempt to keep track of whether the previous style was terminated or not. You can use `willAutoTerminate()` and `isActive()` to determine whether auto termination is enabled and if there are styles currently active on the output stream. To manually end styling, you may output `terminate()`:
+The `Style` instance keeps track of whether the previous style was terminated or not. You can use `willAutoTerminate()` and `isActive()` to determine whether auto termination is enabled and if there are styles currently active on the output stream.
+
+To manually end styling, you can output `terminate()`:
 
 ```php
 use BeBat\ConsoleColor\Style;
@@ -127,7 +129,7 @@ try {
 }
 ```
 
-Lastly, the `apply()` method will also check to see if styles were terminated explicitly by being passed `Style\Text::None`:
+Lastly, the `apply()` method will also check to see if styles were terminated by being passed `Style\Text::None`:
 
 ```php
 use BeBat\ConsoleColor\Style;
@@ -137,6 +139,7 @@ $style->autoTerminate(false);
 
 echo $style->apply("Let's keep styling forever!\n", Style\Color::Blue);
 $style->isActive(); // => true
+
 echo $style->apply("Never mind, I've grown bored of such things.\n", Style\Text::None);
 $style->isActive(); // => false
 ```
@@ -238,7 +241,7 @@ echo $style->apply(
 ) . PHP_EOL;
 ```
 
-`Style\Composite()` can actually take as many styles as you need to apply:
+`Style\Composite()` can take as many styles as you need to apply at once:
 
 ```php
 use BeBat\ConsoleColor\Style;
