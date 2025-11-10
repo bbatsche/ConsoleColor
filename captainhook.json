@@ -18,7 +18,7 @@
                 "conditions": []
             },
             {
-                "action": "composer test:phpunit -- --colors=never",
+                "action": "phpunit --colors=never",
                 "options": [],
                 "conditions": []
             }

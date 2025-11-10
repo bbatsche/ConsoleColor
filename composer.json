@@ -74,7 +74,7 @@
             "@test:phpunit"
         ],
         "test:coverage": "phpunit --coverage-clover=coverage.xml",
-        "test:phpunit": "phpunit",
+        "test:phpunit": "phpunit --colors=always",
         "test:static": "phpstan analyze --ansi"
     },
     "scripts-descriptions": {
