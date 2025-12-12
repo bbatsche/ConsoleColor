@@ -1,0 +1,34 @@
+name: Feature Request
+description: Propose a new feature for ConsoleColor
+title: "[Feature]: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for taking the time to propose a new feature!
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A brief description of the feature you'd like to propose
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Example Code
+      description: |
+        One or more examples of how you think the feature should work and what
+        its results would be
+      render: php
+
+  - type: dropdown
+    attributes:
+      label: Release Target
+      description: |
+        Would this feature be a major (breaking) change to existing
+        functionality or can it go into a minor release?
+      options:
+        - Unknown
+        - Minor
+        - Major
