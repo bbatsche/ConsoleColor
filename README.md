@@ -1,3 +1,4 @@
+<!-- omit in toc -->
 # Console Color
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/bebat/console-color.svg?style=flat-square)](https://packagist.org/packages/bebat/console-color)
@@ -80,7 +81,7 @@ In addition to checking if `STDOUT` is a TTY, `Style` will look at several envir
 
 ### Auto Termination
 
-By default, Console Color will "terminate" each style by appending `Style\Text::None` after whatever text you are applying styles to. This is helpful so you don't accidentally make all the text in the terminal bright red, for example. However, if you are outputting many styles to the screen and would like more control on when they are terminated this can be disabled globally or at call time.
+By default, Console Color will "terminate" each style by appending `Style\Text::None` after the text you are applying styles to. This is helpful so you don't accidentally make all the text in the terminal bright red, for example. However, if you are outputting many styles to the screen and would like more control on when they are terminated this can be disabled globally or at call time.
 
 To disable termination globally, pass `false` to `autoTerminate()` like so:
 
