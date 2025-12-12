@@ -20,7 +20,7 @@ if (is_file($installedPath)) {
 
 final class StyleDemo
 {
-    private const string INDENT = '  ';
+    private const INDENT = '  ';
 
     public function __construct(private ApplierInterface $applier) {}
 
