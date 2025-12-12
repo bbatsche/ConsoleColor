@@ -28,16 +28,16 @@
         "bebat/verify": "~3.2.0",
         "captainhook/captainhook": "~5.25.11",
         "captainhook/plugin-composer": "~5.3.3",
-        "ergebnis/composer-normalize": "~2.33",
-        "friendsofphp/php-cs-fixer": "^3.89.2",
-        "maglnet/composer-require-checker": "~4.6",
+        "ergebnis/composer-normalize": "~2.48.2",
+        "friendsofphp/php-cs-fixer": "~3.91.3",
+        "maglnet/composer-require-checker": "^4.6",
         "mockery/mockery": "~1.6.2",
         "phpstan/extension-installer": "~1.4.3",
-        "phpstan/phpstan": "~1.12.32",
-        "phpstan/phpstan-deprecation-rules": "~1.2.1",
-        "phpstan/phpstan-mockery": "~1.1.1",
-        "phpstan/phpstan-phpunit": "~1.4.2",
-        "phpstan/phpstan-strict-rules": "~1.6.2",
+        "phpstan/phpstan": "~2.1.32",
+        "phpstan/phpstan-deprecation-rules": "~2.0.3",
+        "phpstan/phpstan-mockery": "~2.0.0",
+        "phpstan/phpstan-phpunit": "~2.0.8",
+        "phpstan/phpstan-strict-rules": "~2.0.7",
         "phpunit/phpunit": "~10.5.58",
         "zalas/phpunit-globals": "~4.0.1"
     },
@@ -74,7 +74,7 @@
             "@test:phpunit"
         ],
         "test:coverage": "phpunit --coverage-clover=coverage.xml",
-        "test:phpunit": "phpunit",
+        "test:phpunit": "phpunit --colors=always",
         "test:static": "phpstan analyze --ansi"
     },
     "scripts-descriptions": {

@@ -23,10 +23,10 @@ jobs:
           - php: "8.2"
           - php: "8.3"
           - php: "8.4"
-          # - php: "8.5"
+          - php: "8.5"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Setup PHP ${{ matrix.versions.php }}
         uses: shivammathur/setup-php@v2
         with:
@@ -38,7 +38,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ matrix.versions.php }}-${{ hashFiles('**/composer.json') }}
@@ -48,6 +48,9 @@ jobs:
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Check composer.json Format
+        run: composer normalize --diff --dry-run --no-interaction --ansi
 
       - name: Check Code Style
         run: composer style:check

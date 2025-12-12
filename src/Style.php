@@ -20,7 +20,39 @@ final class Style implements ApplierInterface
      */
     public function __construct($resource = \STDOUT)
     {
-        $this->checkSupport($resource);
+        if (!\in_array(\PHP_SAPI, ['cli', 'cli-server', 'phpdbg'], true)
+            || getenv('NO_COLOR') !== false
+        ) {
+            $this->supportsStyles    = false;
+            $this->supports256Colors = false;
+            $this->supportsRGBColors = false;
+
+            return;
+        }
+
+        if ((PHP_OS_FAMILY === 'Windows' && sapi_windows_vt100_support($resource))
+            || stream_isatty($resource) || getenv('FORCE_COLOR') !== false
+        ) {
+            $this->supportsStyles = true;
+
+            if ((PHP_OS_FAMILY === 'Windows'
+                && (getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON'))
+                || getenv('COLORTERM') === 'truecolor'
+            ) {
+                $this->supports256Colors = true;
+                $this->supportsRGBColors = true;
+            } elseif (str_contains((string) getenv('TERM'), '256color')) {
+                $this->supports256Colors = true;
+                $this->supportsRGBColors = false;
+            } else {
+                $this->supports256Colors = false;
+                $this->supportsRGBColors = false;
+            }
+        } else {
+            $this->supportsStyles    = false;
+            $this->supports256Colors = false;
+            $this->supportsRGBColors = false;
+        }
     }
 
     public function autoTerminate(bool $autoTerminate = true): void
@@ -97,48 +129,6 @@ final class Style implements ApplierInterface
     public function willAutoTerminate(): bool
     {
         return $this->autoTerminate;
-    }
-
-    /**
-     * Does the default output (STDOUT) support styling?
-     *
-     * @param resource $resource
-     */
-    private function checkSupport($resource): void
-    {
-        if (!\in_array(\PHP_SAPI, ['cli', 'cli-server', 'phpdbg'], true)
-            || getenv('NO_COLOR') !== false
-        ) {
-            $this->supportsStyles    = false;
-            $this->supports256Colors = false;
-            $this->supportsRGBColors = false;
-
-            return;
-        }
-
-        if ((PHP_OS_FAMILY === 'Windows' && sapi_windows_vt100_support($resource))
-            || stream_isatty($resource) || getenv('FORCE_COLOR') !== false
-        ) {
-            $this->supportsStyles = true;
-
-            if ((PHP_OS_FAMILY === 'Windows'
-                && (getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON'))
-                || getenv('COLORTERM') === 'truecolor'
-            ) {
-                $this->supports256Colors = true;
-                $this->supportsRGBColors = true;
-            } elseif (str_contains((string) getenv('TERM'), '256color')) {
-                $this->supports256Colors = true;
-                $this->supportsRGBColors = false;
-            } else {
-                $this->supports256Colors = false;
-                $this->supportsRGBColors = false;
-            }
-        } else {
-            $this->supportsStyles    = false;
-            $this->supports256Colors = false;
-            $this->supportsRGBColors = false;
-        }
     }
 
     /**
